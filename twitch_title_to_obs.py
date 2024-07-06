@@ -4,17 +4,22 @@ from twitchAPI.twitch import Twitch
 from twitchAPI.helper import first
 import asyncio
 
-from dotenv import load_dotenv
-load_dotenv()
-
 import os
+from dotenv import load_dotenv
 
-target_user = ""
-text_name = ""
+# .envファイルの内容を読込み
+load_dotenv()
 
 # https://dev.twitch.tv/　でアプリケーション登録して取得する。
 CLIENT_ID =  os.getenv("CLIENT_ID")
 CLIENT_SECRET =  os.getenv("CLIENT_SECRET")
+
+# デバッグ情報の表示
+print("CLIENT_ID:", CLIENT_ID)
+print("CLIENT_SECRET:", CLIENT_SECRET)
+
+target_user = ""
+text_name = ""
 
 def script_description():
     return "ボタン押下で、指定したtwitchアカウントの配信時のタイトルとゲームを取得してテキストに反映させるスクリプト。"
@@ -22,10 +27,10 @@ def script_description():
 def script_properties():
     props = obs.obs_properties_create()
 
-    # 取得対象のユーザ名
+    # 対象のユーザ名
     obs.obs_properties_add_text(props, "target_user", "Target User",obs.OBS_TEXT_DEFAULT)
 
-    # 反映させるテキストソース
+    # テキストソース
     text_properties = obs.obs_properties_add_list(props, "text", "Text Source", obs.OBS_COMBO_TYPE_LIST, obs.OBS_COMBO_FORMAT_STRING)
 
     sources = obs.obs_enum_sources()
